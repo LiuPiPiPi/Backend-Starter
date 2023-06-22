@@ -30,21 +30,22 @@ public class UserController extends BaseController {
     @Autowired
     private AuthService authService;
 
-    @GetMapping("/{id}")
     @ApiOperation("通过ID查询单个用户")
-    public User findById(@ApiParam("ID") @PathVariable("id") Long id) {
-        return userService.findById(id);
+    @GetMapping("/{id}")
+    public Resp findById(@ApiParam("ID") @PathVariable("id") Long id) {
+        User user = userService.findById(id);
+        return user != null ? success(user) : error("no such user.");
     }
 
-    @GetMapping
     @ApiOperation("分页查询用户")
-    public PageInfo<User> findByPage(@ApiParam("页号") @RequestParam(defaultValue = "1") Integer pageNum,
+    @GetMapping("/list")
+    public Resp findByPage(@ApiParam("页号") @RequestParam(defaultValue = "1") Integer pageNum,
                                      @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer pageSize) {
-        return userService.findByPage(pageNum, pageSize);
+        return success(userService.findByPage(pageNum, pageSize));
     }
 
-    @PostMapping
     @ApiOperation("新增用户")
+    @PostMapping("/insert")
     public Resp insert(@RequestBody User user) {
         if (UserConstants.NOT_UNIQUE.equals(userService.checkAccountUnique(user.getUserAccount()))) {
             return Resp.error("新增用户'" + user.getUserAccount() + "'失败，登录账号已存在");
@@ -56,24 +57,21 @@ public class UserController extends BaseController {
         return toResp(userService.insert(user), "insert user error.");
     }
 
-    @PutMapping
+
     @ApiOperation("修改用户")
+    @PostMapping("/update")
     public void update(@RequestBody User user) {
         userService.update(user);
     }
 
-    @DeleteMapping("/{id}")
+
     @ApiOperation("通过ID删除单个用户")
+    @DeleteMapping("/delete/{id}")
     public void deleteById(@ApiParam("ID") @PathVariable("id") Long id) {
         userService.deleteById(id);
     }
 
-    /**
-     * 用电话号码登录
-     *
-     * @param phoneLoginDTO phoneLoginDTO
-     * @return enterprise
-     */
+    @ApiOperation("用电话号码登录")
     @PostMapping("/login")
     public Resp login(@RequestBody @Validated PhoneLoginDTO phoneLoginDTO) {
         User user = userService.login(phoneLoginDTO);
@@ -83,12 +81,7 @@ public class UserController extends BaseController {
         return Resp.success(user, "登录成功");
     }
 
-    /**
-     * 发送验证码
-     *
-     * @param json json
-     * @return
-     */
+    @ApiOperation("发送验证码")
     @PostMapping("/captcha")
     public Resp send(@RequestBody JSONObject json) {
         var phone = json.getStr("phone");

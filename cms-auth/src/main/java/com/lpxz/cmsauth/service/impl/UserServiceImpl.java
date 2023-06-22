@@ -1,6 +1,7 @@
 package com.lpxz.cmsauth.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lpxz.cmsauth.constant.UserConstants;
@@ -9,6 +10,7 @@ import com.lpxz.cmsauth.model.User;
 import com.lpxz.cmsauth.model.dto.PhoneLoginDTO;
 import com.lpxz.cmsauth.service.AuthService;
 import com.lpxz.cmsauth.service.UserService;
+import com.lpxz.cmscommon.base.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -82,8 +84,30 @@ public class UserServiceImpl implements UserService {
         return UserConstants.UNIQUE;
     }
 
+    /**
+     * 注册
+     *
+     * @param user
+     * @return
+     */
+    public boolean register(User user) {
+        String username = user.getUserAccount(), password = user.getUserPassword();
+        if (StrUtil.isEmpty(username)) {
+            throw new BaseException("用户名不能为空");
+        } else if (StrUtil.isEmpty(password)) {
+            throw new BaseException("用户密码不能为空");
+        } else if (UserConstants.NOT_UNIQUE.equals(checkAccountUnique(username))) {
+            throw new BaseException("保存用户[" + username + "]失败，注册账号已存在");
+        } else {
+            // todo
+//            user.setUserPassword(passwordService.encryptPassword(user.getUserAccount(), user.getUserPassword(), user.getSalt()));
+        }
+        return userMapper.insert(user) > 0;
+    }
+
     @Override
     public User login(PhoneLoginDTO phoneLoginDTO) {
+        // todo
         if (authService.verifyCode(phoneLoginDTO.getCaptcha(), phoneLoginDTO.getPhone())) {
             return findUserByPhone(phoneLoginDTO.getPhone());
         }
