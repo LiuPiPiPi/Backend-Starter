@@ -89,6 +89,14 @@ public class BaseController {
         return result ? success() : error(errMsg);
     }
 
+    protected Resp toResp(Object obj) {
+        return obj != null ? success() : error();
+    }
+
+    protected Resp toResp(Object obj, String errMsg) {
+        return obj != null ? success() : error(errMsg);
+    }
+
     /**
      * 返回成功
      */

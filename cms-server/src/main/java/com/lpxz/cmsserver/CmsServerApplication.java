@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan("com.lpxz.**")
-@MapperScan("com.lpxz.**")
+@MapperScan(basePackages={"com.lpxz.cmsauth.mapper","com.lpxz.cmscommon.mapper"})
 public class CmsServerApplication {
 
     public static void main(String[] args) {

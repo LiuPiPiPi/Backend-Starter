@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     private AuthService authService;
 
     @Override
-    public User findById(Long id){
+    public User findById(Long id) {
         return userMapper.findById(id);
     }
 
@@ -37,23 +37,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int insert(User user){
+    public int insert(User user) {
         return userMapper.insert(user);
     }
 
     @Override
-    public void update(User user){
-        userMapper.update(user);
+    public int update(User user) {
+        return userMapper.update(user);
     }
 
     @Override
-    public void deleteById(Long id){
-        userMapper.deleteById(id);
+    public int deleteById(Long id) {
+        return userMapper.deleteById(id);
     }
 
     @Override
-    public User findUserByPhone(String phone) {
-        return userMapper.findByPhone(phone);
+    public User findUserByPhone(String userPhone) {
+        return userMapper.findByPhone(userPhone);
+    }
+
+    @Override
+    public User findUserByEmail(String userEmail) {
+        return userMapper.findByEmail(userEmail);
     }
 
     @Override

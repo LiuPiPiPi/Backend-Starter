@@ -36,22 +36,30 @@ public interface UserMapper {
      *
      * @param user User
      */
-    void update(User user);
+    int update(User user);
 
     /**
      * 通过ID删除单个用户
      *
      * @param id ID
      */
-    void deleteById(Long id);
+    int deleteById(Long id);
 
     /**
      * 通过电话查询单个用户
      *
-     * @param phone
+     * @param userPhone
      * @return
      */
-    User findByPhone(String phone);
+    User findByPhone(String userPhone);
+
+    /**
+     * 通过邮箱查询单个用户
+     *
+     * @param userEmail
+     * @return
+     */
+    User findByEmail(String userEmail);
 
     /**
      * 检查账号是否唯一

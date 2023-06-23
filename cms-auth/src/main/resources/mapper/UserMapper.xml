@@ -19,37 +19,63 @@
 
     <!--通过ID查询单个用户-->
     <select id="findById" resultMap="userMap">
-        SELECT * FROM user
-        WHERE user_id=#{id}
+        SELECT *
+        FROM user
+        WHERE user_id = #{id}
     </select>
 
     <!--分页查询用户-->
     <select id="findByPage" resultMap="userMap">
-        SELECT * FROM user
+        SELECT *
+        FROM user
     </select>
 
     <!--新增用户-->
     <insert id="insert">
-        INSERT INTO user(user_id,user_account,user_name,user_password,user_phone,user_email,user_status,create_by,create_time,remark)
-        VALUES (#{userId},#{userAccount},#{userName},#{userPassword},#{userPhone},#{userEmail},#{userStatus},#{createBy},sysdate(),#{remark})
+        INSERT INTO user(user_id, user_account, user_name, user_password, user_phone, user_email, user_status,
+                         create_by, create_time, remark)
+        VALUES (#{userId}, #{userAccount}, #{userName}, #{userPassword}, #{userPhone}, #{userEmail}, #{userStatus},
+                #{createBy}, sysdate(), #{remark})
     </insert>
 
     <!--修改用户-->
     <update id="update">
-        UPDATE user SET user_account=#{userAccount},user_name=#{userName},user_password=#{userPassword},user_phone=#{userPhone},user_email=#{userEmail},user_status=#{userStatus},create_by=#{createBy},create_time=#{createTime},update_by=#{updateBy},update_time=#{updateTime},remark=#{remark}
-        WHERE user_id=#{userId}
+        UPDATE user
+        SET user_account=#{userAccount},
+            user_name=#{userName},
+            user_password=#{userPassword},
+            user_phone=#{userPhone},
+            user_email=#{userEmail},
+            user_status=#{userStatus},
+            create_by=#{createBy},
+            create_time=#{createTime},
+            update_by=#{updateBy},
+            update_time=sysdate(),
+            remark=#{remark}
+        WHERE user_id = #{userId}
     </update>
 
     <!--通过ID删除单个用户-->
-    <delete id="deleteById">
-        DELETE FROM user
-        WHERE user_id=#{id}
-    </delete>
+    <update id="deleteById">
+        update user
+        set user_status = 2
+        where user_id = #{id}
+    </update>
 
     <!--通过电话查询单个用户-->
     <select id="findByPhone" resultMap="userMap">
-        SELECT * FROM user
-        WHERE user_phone=#{phone}
+        SELECT *
+        FROM user
+        WHERE user_phone = #{userPhone}
+          and user_status != 2
+    </select>
+
+    <!--通过邮箱查询单个用户-->
+    <select id="findByEmail" resultMap="userMap">
+        SELECT *
+        FROM user
+        WHERE user_email = #{userEmail}
+          and user_status != 2
     </select>
 
     <select id="checkAccountUnique" parameterType="String" resultType="int">

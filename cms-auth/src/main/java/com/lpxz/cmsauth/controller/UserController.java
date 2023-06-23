@@ -1,7 +1,6 @@
 package com.lpxz.cmsauth.controller;
 
 import cn.hutool.json.JSONObject;
-import com.github.pagehelper.PageInfo;
 import com.lpxz.cmsauth.constant.UserConstants;
 import com.lpxz.cmsauth.model.User;
 import com.lpxz.cmsauth.model.dto.PhoneLoginDTO;
@@ -32,15 +31,26 @@ public class UserController extends BaseController {
 
     @ApiOperation("通过ID查询单个用户")
     @GetMapping("/{id}")
-    public Resp findById(@ApiParam("ID") @PathVariable("id") Long id) {
-        User user = userService.findById(id);
-        return user != null ? success(user) : error("no such user.");
+    public Resp findById(@ApiParam("ID") @PathVariable Long id) {
+        return toResp(userService.findById(id), "no such user.");
+    }
+
+    @ApiOperation("通过电话查询单个用户")
+    @GetMapping("/phone/{phone}")
+    public Resp findByPhone(@ApiParam("电话") @PathVariable String phone) {
+        return toResp(userService.findUserByPhone(phone), "no such user.");
+    }
+
+    @ApiOperation("通过邮箱查询单个用户")
+    @GetMapping("/email/{email}")
+    public Resp findByEmail(@ApiParam("邮箱") @PathVariable String email) {
+        return toResp(userService.findUserByEmail(email), "no such user.");
     }
 
     @ApiOperation("分页查询用户")
     @GetMapping("/list")
     public Resp findByPage(@ApiParam("页号") @RequestParam(defaultValue = "1") Integer pageNum,
-                                     @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer pageSize) {
+                           @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer pageSize) {
         return success(userService.findByPage(pageNum, pageSize));
     }
 
@@ -60,15 +70,15 @@ public class UserController extends BaseController {
 
     @ApiOperation("修改用户")
     @PostMapping("/update")
-    public void update(@RequestBody User user) {
-        userService.update(user);
+    public Resp update(@RequestBody User user) {
+        return toResp(userService.update(user));
     }
 
 
     @ApiOperation("通过ID删除单个用户")
     @DeleteMapping("/delete/{id}")
-    public void deleteById(@ApiParam("ID") @PathVariable("id") Long id) {
-        userService.deleteById(id);
+    public Resp deleteById(@ApiParam("ID") @PathVariable("id") Long id) {
+        return toResp(userService.deleteById(id), "delete error!");
     }
 
     @ApiOperation("用电话号码登录")

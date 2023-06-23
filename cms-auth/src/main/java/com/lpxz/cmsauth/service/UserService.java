@@ -37,23 +37,33 @@ public interface UserService {
      * 修改用户
      *
      * @param user User
+     * @return
      */
-    void update(User user);
+    int update(User user);
 
     /**
      * 通过ID删除单个用户
      *
      * @param id ID
+     * @return
      */
-    void deleteById(Long id);
+    int deleteById(Long id);
 
     /**
      * 通过电话查询单个用户
      *
-     * @param phone
+     * @param userPhone
      * @return
      */
-    User findUserByPhone(String phone);
+    User findUserByPhone(String userPhone);
+
+    /**
+     * 通过邮箱查询单个用户
+     *
+     * @param userEmail
+     * @return
+     */
+    User findUserByEmail(String userEmail);
 
     /**
      * 检查账号是否唯一
