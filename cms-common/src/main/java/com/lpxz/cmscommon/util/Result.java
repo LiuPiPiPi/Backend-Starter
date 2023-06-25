@@ -5,7 +5,7 @@ package com.lpxz.cmscommon.util;
  *
  * @author LPxz
  */
-public class Resp {
+public class Result {
 
     private int code;
 
@@ -29,68 +29,68 @@ public class Resp {
         return data;
     }
 
-    public Resp setCode(int respCode) {
+    public Result setCode(int respCode) {
         this.code = respCode;
         return this;
     }
 
-    public Resp setMessage(String message) {
+    public Result setMessage(String message) {
         this.message = message;
         return this;
     }
 
-    public Resp setData(Object data) {
+    public Result setData(Object data) {
         this.data = data;
         return this;
     }
 
     // 只返回状态
-    public static Resp success() {
-        return new Resp()
+    public static Result success() {
+        return new Result()
                 .setCode(ResCode.SUCCESS)
                 .setMessage(DEFAULT_SUCCESS_MESSAGE);
     }
 
     // 只返回信息
-    public static Resp success(String message) {
-        return new Resp()
+    public static Result success(String message) {
+        return new Result()
                 .setCode(ResCode.SUCCESS)
                 .setMessage(message);
     }
 
     // 只返回数据
-    public static Resp success(Object data) {
-        return new Resp()
+    public static Result success(Object data) {
+        return new Result()
                 .setCode(ResCode.SUCCESS)
                 .setMessage(DEFAULT_SUCCESS_MESSAGE)
                 .setData(data);
     }
 
     // 成功返回数据
-    public static Resp success(Object data, String message) {
-        return new Resp()
+    public static Result success(Object data, String message) {
+        return new Result()
                 .setCode(ResCode.SUCCESS)
                 .setMessage(message)
                 .setData(data);
     }
 
     // 失败 只返回状态
-    public static Resp error() {
-        return new Resp()
+    public static Result error() {
+        return new Result()
                 .setCode(ResCode.ERROR)
                 .setMessage(DEFAULT_ERROR_MESSAGE);
     }
 
     // 失败 只返回信息
-    public static Resp error(String message) {
-        return new Resp()
+    public static Result error(String message) {
+        return new Result()
                 .setCode(ResCode.ERROR)
                 .setMessage(message);
     }
 
     // 失败 设置状态码
-    public static Resp error(int code, String message) {
-        return new Resp()
+    public static Result error(int code, String message) {
+        return new Result()
                 .setCode(code)
                 .setMessage(message);
     }

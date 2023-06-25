@@ -2,7 +2,7 @@ package com.lpxz.cmscommon.base;
 
 import cn.hutool.core.date.DateUtil;
 //import com.lpxz.cmscommon.base.TableDataInfo;
-import com.lpxz.cmscommon.util.Resp;
+import com.lpxz.cmscommon.util.Result;
 import com.lpxz.cmscommon.util.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,13 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author LPxz
  * @date 2023/6/4
  */
-public class BaseController {
+public abstract class BaseController {
 
     protected final Logger logger = LoggerFactory.getLogger(BaseController.class);
 
@@ -28,7 +27,7 @@ public class BaseController {
      * 将前台传递过来的日期格式的字符串，自动转化为Date类型
      */
     @InitBinder
-    public void initBinder(WebDataBinder binder) {
+    private void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) {
@@ -40,21 +39,21 @@ public class BaseController {
     /**
      * 获取request
      */
-    public HttpServletRequest getRequest() {
+    protected HttpServletRequest getRequest() {
         return ServletUtils.getRequest();
     }
 
     /**
      * 获取response
      */
-    public HttpServletResponse getResponse() {
+    protected HttpServletResponse getResponse() {
         return ServletUtils.getResponse();
     }
 
     /**
      * 获取session
      */
-    public HttpSession getSession() {
+    protected HttpSession getSession() {
         return getRequest().getSession();
     }
 
@@ -73,61 +72,61 @@ public class BaseController {
     /**
      * 响应返回结果
      */
-    protected Resp toResp(int rows) {
+    protected Result toResp(int rows) {
         return rows > 0 ? success() : error();
     }
 
-    protected Resp toResp(int rows, String errMsg) {
+    protected Result toResp(int rows, String errMsg) {
         return rows > 0 ? success() : error(errMsg);
     }
 
-    protected Resp toResp(boolean result) {
+    protected Result toResp(boolean result) {
         return result ? success() : error();
     }
 
-    protected Resp toResp(boolean result, String errMsg) {
+    protected Result toResp(boolean result, String errMsg) {
         return result ? success() : error(errMsg);
     }
 
-    protected Resp toResp(Object obj) {
+    protected Result toResp(Object obj) {
         return obj != null ? success() : error();
     }
 
-    protected Resp toResp(Object obj, String errMsg) {
+    protected Result toResp(Object obj, String errMsg) {
         return obj != null ? success() : error(errMsg);
     }
 
     /**
      * 返回成功
      */
-    public Resp success() {
-        return Resp.success();
+    protected Result success() {
+        return Result.success();
     }
 
-    public Resp success(Object obj) {
-        return Resp.success(obj);
+    protected Result success(Object obj) {
+        return Result.success(obj);
     }
 
-    public Resp success(String message) {
-        return Resp.success(message);
+    protected Result success(String message) {
+        return Result.success(message);
     }
 
-    public Resp success(Object data, String message) {
-        return Resp.success(data, message);
+    protected Result success(Object data, String message) {
+        return Result.success(data, message);
     }
 
     /**
      * 返回失败
      */
-    public Resp error() {
-        return Resp.error();
+    protected Result error() {
+        return Result.error();
     }
 
-    public Resp error(String message) {
-        return Resp.error(message);
+    protected Result error(String message) {
+        return Result.error(message);
     }
 
-    public Resp error(int code, String message) {
-        return Resp.error(code, message);
+    protected Result error(int code, String message) {
+        return Result.error(code, message);
     }
 }

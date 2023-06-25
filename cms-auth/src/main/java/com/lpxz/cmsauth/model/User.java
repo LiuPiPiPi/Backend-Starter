@@ -1,6 +1,6 @@
 package com.lpxz.cmsauth.model;
 
-import com.lpxz.cmscommon.base.BaseEntity;
+import com.lpxz.cmscommon.base.BaseModel;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
 * 用户
 */
 @Data
-public class User extends BaseEntity {
+public class User extends BaseModel {
 
     private static final long serialVersionUID = 1L;
 

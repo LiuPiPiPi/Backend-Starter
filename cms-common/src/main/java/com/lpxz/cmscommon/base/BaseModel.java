@@ -5,15 +5,13 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author LPxz
  * @date 2023/6/3
  */
 @Data
-public class BaseEntity implements Serializable {
+public class BaseModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
