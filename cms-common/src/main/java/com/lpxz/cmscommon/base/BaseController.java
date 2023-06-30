@@ -2,8 +2,9 @@ package com.lpxz.cmscommon.base;
 
 import cn.hutool.core.date.DateUtil;
 //import com.lpxz.cmscommon.base.TableDataInfo;
-import com.lpxz.cmscommon.util.Result;
+import com.lpxz.cmscommon.util.response.Result;
 import com.lpxz.cmscommon.util.ServletUtils;
+import com.lpxz.cmscommon.util.response.ResultHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
@@ -72,61 +73,61 @@ public abstract class BaseController {
     /**
      * 响应返回结果
      */
-    protected Result toResp(int rows) {
+    protected <T> Result<T> toResp(int rows) {
         return rows > 0 ? success() : error();
     }
 
-    protected Result toResp(int rows, String errMsg) {
+    protected <T> Result<T> toResp(int rows, String errMsg) {
         return rows > 0 ? success() : error(errMsg);
     }
 
-    protected Result toResp(boolean result) {
-        return result ? success() : error();
+    protected <T> Result<T> toResp(boolean resp) {
+        return resp ? success() : error();
     }
 
-    protected Result toResp(boolean result, String errMsg) {
-        return result ? success() : error(errMsg);
+    protected <T> Result<T> toResp(boolean resp, String errMsg) {
+        return resp ? success() : error(errMsg);
     }
 
-    protected Result toResp(Object obj) {
+    protected <T> Result<T> toResp(T obj) {
         return obj != null ? success() : error();
     }
 
-    protected Result toResp(Object obj, String errMsg) {
+    protected <T> Result<T> toResp(T obj, String errMsg) {
         return obj != null ? success() : error(errMsg);
     }
 
     /**
      * 返回成功
      */
-    protected Result success() {
-        return Result.success();
+    protected <T> Result<T> success() {
+        return ResultHelper.success();
     }
 
-    protected Result success(Object obj) {
-        return Result.success(obj);
+    protected <T> Result<T> success(T obj) {
+        return ResultHelper.success(obj);
     }
 
-    protected Result success(String message) {
-        return Result.success(message);
+    protected <T> Result<T> success(String message) {
+        return ResultHelper.success(message);
     }
 
-    protected Result success(Object data, String message) {
-        return Result.success(data, message);
+    protected <T> Result<T> success(T data, String message) {
+        return ResultHelper.success(data, message);
     }
 
     /**
      * 返回失败
      */
-    protected Result error() {
-        return Result.error();
+    protected <T> Result<T> error() {
+        return ResultHelper.error();
     }
 
-    protected Result error(String message) {
-        return Result.error(message);
+    protected <T> Result<T> error(String message) {
+        return ResultHelper.error(message);
     }
 
-    protected Result error(int code, String message) {
-        return Result.error(code, message);
+    protected <T> Result<T> error(String code, String message) {
+        return ResultHelper.error(code, message);
     }
 }
